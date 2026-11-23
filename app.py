@@ -561,7 +561,8 @@ social_publish.attach(app, DATA)
 social_scheduler.attach(app, DATA)
 
 if __name__=='__main__':
- lan=os.environ.get('NEONCLIPPING_LAN')=='1'      # phone remote: listen on the home network (PIN required, see phone.py); default is this PC only
+ lan=os.environ.get('NEONCLIPPING_LAN')=='1' or bool(os.environ.get('RENDER')) or bool(os.environ.get('PORT'))
  if lan:
   import phone as _ph;print('Phone access ON. Open one of these on your phone (same Wi-Fi):',', '.join(f"http://{ip}:{os.environ.get('NEONCLIPPING_PORT','8770')}/m" for ip in _ph.lan_ips()) or '(no Wi-Fi address found)')
- uvicorn.run(app,host='0.0.0.0' if lan else '127.0.0.1',port=int(os.environ.get('NEONCLIPPING_PORT','8770')))
+ app_port = int(os.environ.get('PORT') or os.environ.get('NEONCLIPPING_PORT') or '8770')
+ uvicorn.run(app,host='0.0.0.0' if lan else '127.0.0.1',port=app_port)

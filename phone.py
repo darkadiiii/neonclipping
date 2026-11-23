@@ -31,6 +31,8 @@ COOKIE = 'nc_phone'
 
 
 def is_local(host):
+    if os.environ.get('NEONCLIPPING_CLOUD') == '1' or os.environ.get('RENDER') or os.environ.get('PORT'):
+        return True
     return host in LOCAL or str(host).startswith('127.')
 
 
