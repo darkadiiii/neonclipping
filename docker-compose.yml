@@ -1,0 +1,23 @@
+services:
+  neonclipping:
+    build: .
+    container_name: neonclipping-studio
+    restart: unless-stopped
+    ports:
+      - "8770:8770"
+    environment:
+      - NEONCLIPPING_LAN=1
+      - NEONCLIPPING_PORT=8770
+      - NEONCLIPPING_STORAGE=local
+      # Optional Cloud AI keys
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

@@ -43,5 +43,9 @@ __pycache__/
 !extras.js
 !transcripts.js
 !vision.js
+!social.js
+!Dockerfile
+!docker-compose.yml
+!.env.example
 
 !mobile.html
