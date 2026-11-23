@@ -100,6 +100,8 @@ def attach(app, data, root):
 
     @app.middleware('http')
     async def gate(request: Request, call_next):
+        if os.environ.get('NEONCLIPPING_CLOUD') == '1' or os.environ.get('RENDER') or os.environ.get('PORT'):
+            return await call_next(request)
         host = request.client.host if request.client else ''
         if is_local(host):
             return await call_next(request)
