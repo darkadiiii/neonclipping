@@ -1,6 +1,7 @@
 # NeonClipping launcher (Windows). Creates .venv on first run, starts the app, opens the browser.
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
+$env:Path = "$PSScriptRoot\.venv\Scripts;$env:Path"
 if (-not (Test-Path .venv/Scripts/python.exe)) {
     python -m venv .venv
     .venv/Scripts/python.exe -m pip install -r requirements.txt

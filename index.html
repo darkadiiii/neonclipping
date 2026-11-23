@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="dark"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NeonClipping</title><link rel="stylesheet" href="/assets/style.css?v=20261120-vision1"></head><body>
-<aside class="sidebar"><a class="brand" href="/">N↗ <div>NEONCLIPPING<small>OPEN-SOURCE CLIP ENGINE</small></div></a><div class="nav-label">WORKSPACE</div><button class="nav active" data-view="editor">◫ &nbsp; Create clips</button><button class="nav" data-view="library">▦ &nbsp; My clips <span id="library-count">0</span></button><div class="side-note">● Your machine. Your clips.<p>Independent local processing.<br>No clipping subscription.</p></div><div class="signature">BUILT FOR THE NEXT HIGHLIGHT.<small>by <a href="https://www.instagram.com/iamajmeena/" target="_blank" rel="noopener" style="color:inherit">Ajay K Meena</a> · <a href="https://github.com/iamajmeena/neonclipping" target="_blank" rel="noopener" style="color:inherit">open-source</a></small></div></aside>
+<aside class="sidebar"><a class="brand" href="/">N↗ <div>NEONCLIPPING<small>OPEN-SOURCE CLIP ENGINE</small></div></a><div class="nav-label">WORKSPACE</div><button class="nav active" data-view="editor">◫ &nbsp; Create clips</button><button class="nav" data-view="library">▦ &nbsp; My clips <span id="library-count">0</span></button><button class="nav" data-view="social">🚀 &nbsp; Social Studio <span id="schedule-count" class="pill" style="font-size:10px;margin-left:4px">0</span></button><button class="nav" data-view="accounts">🔗 &nbsp; Connected Accounts</button><div class="side-note">● Your machine. Your clips.<p>Independent local processing.<br>No clipping subscription.</p></div><div class="signature">BUILT FOR THE NEXT HIGHLIGHT.<small>by <a href="https://www.instagram.com/iamajmeena/" target="_blank" rel="noopener" style="color:inherit">Ajay K Meena</a> · <a href="https://github.com/iamajmeena/neonclipping" target="_blank" rel="noopener" style="color:inherit">open-source</a></small></div></aside>
 <main><header><div class="eyebrow">THE CLIP STARTS HERE</div><div class="top"><h1>Long video. <em>Big moments.</em></h1><span class="social"><a class="gh" href="https://github.com/iamajmeena/neonclipping" target="_blank" rel="noopener">★ Star on GitHub</a><a class="ig" href="https://www.instagram.com/iamajmeena/" target="_blank" rel="noopener">Follow @iamajmeena</a><button class="don" id="donate" hidden>♥ Donate</button></span><dialog id="donate-dialog"><b>Support NeonClipping ♥</b><p>It is free and open-source. If it saves you time, a small donation helps me keep improving it. Totally optional: nothing is locked, ever.</p><div class="don-links"><a id="don-rzp" target="_blank" rel="noopener" hidden>Razorpay (UPI, cards)</a><a id="don-pp" target="_blank" rel="noopener" hidden>PayPal</a></div><button id="don-close">Close</button></dialog></div><p>Paste a link. Get captioned 9:16 clips in about two minutes. Free, local, open-source.</p></header><section id="editor-view">
 <section class="panel import-panel"><div class="section-head"><h2><span class="step">01</span> Bring your video</h2><label class="upload">↑ Upload video<input id="file" type="file" accept="video/*" hidden></label></div><div class="url-row"><input id="url" type="url" placeholder="Paste a YouTube, Twitch or Kick replay link"><button class="primary" id="link">Get preview ↗</button><button class="primary make" id="make">⚡ Make clips</button></div><div class="make-row"><span class="muted">Make clips = one click: download → AI picks best moments → captioned 9:16 clips. Uses the Clips / length / layout / caption style below.</span></div><div id="make-results" hidden><div class="progress-track"><div id="make-progress"></div></div><b id="make-status"></b><div id="make-grid" class="make-grid"></div></div><div class="import-note" id="link-status" role="status">Frames arrive first. Select your areas while the full source downloads.</div><div class="progress-track" hidden id="progress-wrap"><div id="progress"></div></div><div id="frames" class="frames"></div><label class="toggle" style="margin-top:12px"><input id="auto-analyze" type="checkbox" checked> Find highlights automatically when the source is ready</label></section><details class="panel" id="queue-panel"><summary><b>Processing queue</b> · save batches for later</summary><p class="muted">Queue video links, pause waiting work, or retry an interrupted job. Running work is kept safe.</p><label>Video links, one per line<textarea id="queue-urls" rows="3" placeholder="https://www.youtube.com/watch?v=..."></textarea></label><div class="controls"><label>Start after (optional)<input id="queue-time" type="datetime-local"></label><button class="secondary" id="queue-add">Add videos to queue</button><button id="queue-pause">Pause queue</button><button id="queue-refresh">Refresh queue</button></div><div id="queue-list"></div></details>
 <details class="panel" id="ai-panel"><summary><b>🤖 Long stream? Let a free chatbot pick the moments</b> <span class="pill">NEW</span></summary>
@@ -54,5 +54,168 @@
 <div class="import-note">The music sits low under the voice, then rises to its peak volume in the last seconds. Your logo, music and image stay on this computer.</div>
 <div class="controls"><button class="secondary" id="st-reset">Reset all style options</button></div></section>
 <section class="panel" id="saved-edit" hidden><h2>Edit saved clips</h2><h3 style="margin-top:18px">Speaker position &amp; shape · 11 layouts</h3><div id="edit-layouts" class="layout-grid"></div><label>Speaker size<input id="edit-top" type="range" min="20" max="50" value="32"></label><p class="muted">Reuse the saved video, selected moments and subtitle timings. Only the final MP4 is exported again. Each clip keeps its own transcript.</p><div class="controls" style="margin-top:14px"><button class="primary" id="apply-video">Apply to all clips of this video</button><button class="secondary" id="apply-one">Only this clip</button><button id="download-bundle">Download video’s clips ZIP</button><a id="bundle-link" hidden download>Download ZIP</a></div></section><section class="export-bar"><div><b id="status" role="status">Add a video to begin.</b><p id="detail">Your exports stay on this computer and appear in My clips.</p></div><button id="batch">Export video highlights</button><button class="primary" id="export">Export clip ↗</button><a id="download" class="download" hidden download="neoncut-clip.mp4">↓ Download MP4</a><a id="srt" hidden>↓ Subtitles SRT</a><a id="vtt" hidden>↓ WebVTT</a></section></section>
-<section id="library-view" hidden><section class="library-heading"><h2>Your clips, <em>ready to go.</em></h2><button id="refresh-library">Refresh library</button></section><p class="muted">Finished exports stay in the studio's data folder. Download an MP4 to keep or share it.</p><div id="library" class="library-grid"></div></section><footer>NEONCLIPPING STUDIO <span>Review your moment. Keep the creator's campaign brief in view.</span></footer></main><script src="/assets/app.js?v=20261120-vision1"></script>
-<script src="/assets/extras.js?v=20261120-vision1"></script><script src="/assets/transcripts.js?v=20261120-vision1"></script><script src="/assets/vision.js?v=20261120-vision1"></script></body></html>
+<section id="library-view" hidden><section class="library-heading"><h2>Your clips, <em>ready to go.</em></h2><button id="refresh-library">Refresh library</button></section><p class="muted">Finished exports stay in the studio's data folder. Download an MP4 to keep or share it.</p><div id="library" class="library-grid"></div></section>
+
+<section id="social-view" hidden>
+  <div class="section-head" style="margin-bottom:14px">
+    <h2>🚀 Social Studio &amp; Auto-Publish</h2>
+    <button class="secondary" id="btn-refresh-schedule">Refresh Schedule</button>
+  </div>
+  <p class="muted">Automate your social distribution. Scheduled clips will be dispatched automatically at their assigned time to YouTube Shorts, TikTok, and Instagram Reels.</p>
+  
+  <section class="panel" style="margin-top:16px">
+    <div class="section-head"><h3>📅 Upcoming Scheduled Posts</h3></div>
+    <div id="schedule-list"></div>
+  </section>
+
+  <section class="panel" style="margin-top:16px">
+    <div class="section-head"><h3>📜 Direct Publishing History &amp; Live Links</h3></div>
+    <div id="history-list"></div>
+  </section>
+</section>
+
+<section id="accounts-view" hidden>
+  <div class="section-head" style="margin-bottom:14px">
+    <h2>🔗 Connected Social Accounts</h2>
+    <button class="secondary" id="btn-add-account">+ Manual / Developer Token</button>
+  </div>
+  <p class="muted">Manage OAuth and API tokens for YouTube, TikTok, and Instagram Reels publishing.</p>
+
+  <section class="panel" style="margin:16px 0;border-color:rgba(88,232,247,0.3);background:linear-gradient(180deg,#181226,#100d1a)">
+    <div class="section-head">
+      <h3>▶ YouTube Channel Direct OAuth (1-Click Login)</h3>
+      <button class="primary" id="btn-google-login" style="background:linear-gradient(90deg,#ff4ba5,#ff8a3d);font-weight:700">🔑 Sign in with Google / YouTube</button>
+    </div>
+    <p class="muted" style="margin-top:6px">Connect your YouTube channel safely using Google's official Sign-In. Once connected, your channel is permanently authorized for 1-click and scheduled publishing.</p>
+    <details style="margin-top:12px">
+      <summary class="muted" style="cursor:pointer;font-size:13px">⚙️ Google Cloud App Keys Setup (Free, 2 mins) <span class="pill" id="yt-keys-pill">Not Set</span></summary>
+      <div class="controls" style="margin-top:10px">
+        <label>Google OAuth Client ID
+          <input id="yt-client-id" placeholder="xxxx.apps.googleusercontent.com">
+        </label>
+        <label>Google OAuth Client Secret
+          <input id="yt-client-secret" type="password" placeholder="GOCSPX-xxxx">
+        </label>
+        <button class="primary" id="save-yt-creds">Save Google Keys</button>
+      </div>
+      <p class="muted" style="font-size:12px;margin-top:8px">
+        1. Open <a href="https://console.cloud.google.com/" target="_blank" rel="noopener" style="color:var(--cyan)">Google Cloud Console ↗</a> and create a project.<br>
+        2. Enable <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener" style="color:var(--cyan)">YouTube Data API v3 ↗</a>.<br>
+        3. Under Credentials, create <b>OAuth client ID (Web application)</b> with Redirect URI: <code style="color:var(--cyan)">http://127.0.0.1:8770/api/social/callback/youtube</code>
+      </p>
+    </details>
+  </section>
+
+  <div id="accounts-list" style="margin-top:16px"></div>
+
+  <section class="panel" style="margin-top:20px">
+    <div class="section-head"><h3>🤖 AI Metadata Engine Settings</h3></div>
+    <p class="muted">Select which AI generates titles, descriptions, and viral hashtags for your clips.</p>
+    <div class="controls">
+      <label>AI Provider
+        <select id="meta-provider">
+          <option value="auto">Auto (Cloud API if key present, else Ollama, else Rule-based)</option>
+          <option value="ollama">Local Ollama (Offline / Free)</option>
+          <option value="gemini">Google Gemini API (Fast &amp; High Quality)</option>
+          <option value="openai">OpenAI GPT-4o-mini</option>
+        </select>
+      </label>
+      <label>Google Gemini API Key
+        <input id="meta-gemini-key" type="password" placeholder="AIzaSy...">
+        <small id="meta-gemini-status" class="muted"></small>
+      </label>
+      <label>OpenAI API Key
+        <input id="meta-openai-key" type="password" placeholder="sk-proj-...">
+        <small id="meta-openai-status" class="muted"></small>
+      </label>
+      <button class="primary" id="save-meta-settings">Save AI Settings</button>
+    </div>
+  </section>
+</section>
+
+<dialog id="account-dialog" style="border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--white);padding:24px;max-width:440px;width:90%">
+  <b style="font-size:18px">Connect Social Account</b>
+  <p class="muted" style="margin:8px 0 16px;font-size:13px">Enter your API credentials or OAuth access token below.</p>
+  <div class="controls" style="display:grid;gap:12px">
+    <label>Platform
+      <select id="acc-platform">
+        <option value="youtube">YouTube Shorts (Google)</option>
+        <option value="tiktok">TikTok</option>
+        <option value="instagram">Instagram Reels (Meta)</option>
+      </select>
+    </label>
+    <label>Account Label / Name
+      <input id="acc-name" placeholder="e.g. My Gaming Channel">
+    </label>
+    <label>Access Token
+      <input id="acc-token" type="password" placeholder="Paste Access Token / Bearer Token">
+    </label>
+    <label>Refresh Token (Optional / YouTube)
+      <input id="acc-refresh" type="password" placeholder="Paste Refresh Token">
+    </label>
+    <label>Instagram User ID (Instagram only)
+      <input id="acc-ig-user" placeholder="e.g. 17841400000000000">
+    </label>
+  </div>
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
+    <button class="secondary" id="acc-close">Cancel</button>
+    <button class="primary" id="save-manual-acc">Save Connection</button>
+  </div>
+</dialog>
+
+<dialog id="publish-dialog" style="border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--white);padding:24px;max-width:540px;width:90%">
+  <b style="font-size:18px">🚀 Publish / Schedule Clip</b>
+  <p class="muted" style="margin:8px 0 16px;font-size:13px">Generate viral metadata and publish directly to your social accounts.</p>
+  
+  <div class="controls" style="display:grid;gap:12px">
+    <label>Target Platform
+      <select id="pub-platform">
+        <option value="youtube">YouTube Shorts</option>
+        <option value="tiktok">TikTok</option>
+        <option value="instagram">Instagram Reels</option>
+      </select>
+    </label>
+    <label>Account
+      <select id="pub-account"></select>
+    </label>
+    
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+      <b style="font-size:14px">Clip Metadata</b>
+      <button class="secondary" id="pub-gen-ai" style="font-size:12px;padding:4px 10px;color:var(--cyan)">✨ Auto-Generate with AI</button>
+    </div>
+
+    <label>Title
+      <input id="pub-title" placeholder="Catchy title (under 70 chars)">
+    </label>
+    <label>Description &amp; Hashtags
+      <textarea id="pub-desc" rows="4" placeholder="Enter description and #hashtags"></textarea>
+    </label>
+
+    <label>Privacy
+      <select id="pub-privacy">
+        <option value="public">Public</option>
+        <option value="unlisted">Unlisted</option>
+        <option value="private">Private</option>
+      </select>
+    </label>
+
+    <div style="margin:10px 0;display:flex;gap:16px;align-items:center">
+      <label style="cursor:pointer"><input type="radio" name="pub-opt" id="pub-opt-now" checked> Publish Immediately</label>
+      <label style="cursor:pointer"><input type="radio" name="pub-opt" id="pub-opt-schedule"> Schedule for Later</label>
+    </div>
+
+    <div id="pub-sched-wrap" hidden>
+      <label>Schedule Date &amp; Time
+        <input id="pub-sched-time" type="datetime-local">
+      </label>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
+    <button class="secondary" id="pub-close">Cancel</button>
+    <button class="primary" id="pub-submit">Confirm &amp; Publish</button>
+  </div>
+</dialog>
+
+<footer>NEONCLIPPING STUDIO <span>Review your moment. Keep the creator's campaign brief in view.</span></footer></main><script src="/assets/app.js?v=20261120-vision1"></script>
+<script src="/assets/extras.js?v=20261120-vision1"></script><script src="/assets/transcripts.js?v=20261120-vision1"></script><script src="/assets/vision.js?v=20261120-vision1"></script><script src="/assets/social.js?v=20261123-1"></script></body></html>

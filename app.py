@@ -17,6 +17,9 @@ import hooks
 import curation
 import facecam_detect
 ROOT=Path(__file__).resolve().parent
+venv_scripts = ROOT / '.venv' / 'Scripts'
+if venv_scripts.exists():
+    os.environ['PATH'] = str(venv_scripts) + os.pathsep + os.environ.get('PATH', '')
 DATA=Path(os.environ.get('NEONCLIPPING_DATA_DIR',str(ROOT/'data'))).resolve();DATA.mkdir(parents=True,exist_ok=True)
 app=FastAPI()
 state={}
@@ -51,7 +54,7 @@ def media(id:str):
  return FileResponse(p,media_type='video/mp4')
 @app.get('/assets/{name}')
 def assets(name:str):
- if name not in ('app.js','style.css','extras.js','transcripts.js','vision.js'):raise HTTPException(404)
+ if name not in ('app.js','style.css','extras.js','transcripts.js','vision.js','social.js'):raise HTTPException(404)
  return FileResponse(ROOT/name)
 @app.get('/text/{id}/{kind}')
 def text_file(id:str,kind:str):
@@ -550,6 +553,12 @@ vision.attach(app,DATA,state,probe)
 
 import creators
 creators.attach(app,DATA,LIVE,lambda target,opts,cid:start_live(target,opts,cid))
+
+import ai_metadata, social_auth, social_publish, social_scheduler
+ai_metadata.attach(app, DATA)
+social_auth.attach(app, DATA)
+social_publish.attach(app, DATA)
+social_scheduler.attach(app, DATA)
 
 if __name__=='__main__':
  lan=os.environ.get('NEONCLIPPING_LAN')=='1'      # phone remote: listen on the home network (PIN required, see phone.py); default is this PC only
