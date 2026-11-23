@@ -187,13 +187,17 @@ class LiveSession:
 
     def _run(self):
         try:
-            log = open(self.dir / 'streamlink.log', 'wb')
-            self.proc = subprocess.Popen([sys.executable, '-m', 'streamlink', '--loglevel', 'warning', '--stdout', self.url, 'best'],
-                                         stdout=open(self.rec, 'wb'), stderr=log)
+            log_path = self.dir / 'recorder.log'
+            log = open(log_path, 'wb')
+            if self.kind == 'youtube':
+                cmd = [sys.executable, '-m', 'yt_dlp', '--no-warnings', '-q', '-o', '-', self.url]
+            else:
+                cmd = [sys.executable, '-m', 'streamlink', '--loglevel', 'warning', '--stdout', self.url, 'best']
+            self.proc = subprocess.Popen(cmd, stdout=open(self.rec, 'wb'), stderr=log)
             deadline = time.time() + 90
             while self.t0 is None:
                 if self.proc.poll() is not None:
-                    tail = (self.dir / 'streamlink.log').read_text(errors='ignore')[-300:] if (self.dir / 'streamlink.log').exists() else ''
+                    tail = log_path.read_text(errors='ignore')[-300:] if log_path.exists() else ''
                     raise RuntimeError('The stream is offline or could not be opened. ' + tail.strip().replace('\n', ' '))
                 if self.rec.exists() and self.rec.stat().st_size > 0:
                     self.t0 = time.time()
